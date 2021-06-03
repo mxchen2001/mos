@@ -1,15 +1,1 @@
-default:
-	nasm -fbin main.S -o main.bin
-
-# iso: default
-# 	cp main.bin iso/boot/main.bin && \
-# 	grub-mkrescue /usr/lib/grub/i386-pc -o main.iso iso
-
-qemu-bin:
-	qemu-system-x86_64 main.bin
-
-# qemu-iso:
-# 	qemu-system-x86_64 main.iso
-
-clean:
-	rm *.iso *.bin
+include ../Makefile.kernel

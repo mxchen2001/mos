@@ -186,3 +186,56 @@ We want to:
 3. Set `ch`, `df`, `al`, and `cl`.
    -  Note that the boot sector is sector `0x01` and has already been read into memory (it is 1-indexed).
 4. The `es:bx` indicates where the disk information will be in memory. The default space for the boot sector is `0x7c00` and we want to move it 512 B (size of a sector) after. 
+
+
+### Separating functions
+Similar to `c`'s `#include`, we can used `%include <file path>` to separate the functions into different files. Unlike `c` where there are seperate object files, the `%include` acts as a text replacement where the contents of the included file will essentially be copied in place of the `%include`. We can confirm this as the final `.bin` file has the assembled values of the include files at the specified location.
+
+
+### The kernel
+There are 3 sections to a kernel. The data or `.data`, variables or `.bss`, and code or `.text`.
+
+Note that the `.data` and `.bss` will be placed after the `.text` section and subsequently the magic value of the boot loader code.
+
+#### Bits directive
+```nasm
+[bits <mode>]        ; either 16, 32, or 64
+```
+#### .data
+This section hold constants.
+```nasm
+section .data
+   ; your constants
+   DAY_IN_YEAR: equ 365
+```
+
+#### .bss
+This section hold variables.
+```nasm
+section .bss
+   ; your mutable variables
+   BUFFER:
+      resb 4096         ; buffer of size 4096 bytes
+```
+
+#### .text
+This section hold code.
+```nasm
+section .text
+   ; entry point to the code
+   global main ; the entry point is main label
+
+   ; the code
+   main:
+      hlt
+```
+
+#### Some initializations
+1. Clearing segment registers
+2. Moving the stack pointer (esp) to the entry point.
+
+### Direction Flag
+The direction flag indicates the direction that certain *string instructions* are incremented. `MOVS` is a string copy, `CMPS` is a string compare, etc. However, since strings occupy variable length and are null terminated, the read is done using pointer arithmetic. When the direction flag is 0, the instructions work by incrementing the pointer to the address after, while if the flag is 1, the pointer is decremented.
+
+#### Making sure the Disk is properly set
+Sometimes the disk will have its head or track or cylinder set to a different value that is not 0. To make sure that this is fixed during start up, we will call `int 0x13` or read disk to properly set the disk.

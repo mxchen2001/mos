@@ -239,3 +239,21 @@ The direction flag indicates the direction that certain *string instructions* ar
 
 #### Making sure the Disk is properly set
 Sometimes the disk will have its head or track or cylinder set to a different value that is not 0. To make sure that this is fixed during start up, we will call `int 0x13` or read disk to properly set the disk.
+
+### A20
+In older intel microprocessors like the 8086 and 8088, the address bus has 20 bits where A19 is MSB and A0 is LSB. This allows for `2^20` bytes if data or 1 Mebibyte. However since the 8086 and 8088 are 16-bits machines, the microprocessor could not reach address past `0xFFFF`. To overcome this, the processors uses segmenting.
+
+The processor used a segment address and offset address such that the memory access was:
+```nasm
+<segment addr> + <offset addr> = <actual address>
+
+((0x0000) << 4) + 0x3000 = 0x03000
+((0xF000) << 4) + 0x3000 = 0xF3000
+```
+
+However the problem of overflow occurs. If the address exceeds 20 bits, the address would be truncated. Take the example:
+```nasm
+((0xF800) << 4) + 0x8000 = 0x100000 ; where the truncated address is 0x00000
+```
+
+This wrapping can be used to index to any point in memory

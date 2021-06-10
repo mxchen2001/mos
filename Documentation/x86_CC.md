@@ -256,4 +256,15 @@ However the problem of overflow occurs. If the address exceeds 20 bits, the addr
 ((0xF800) << 4) + 0x8000 = 0x100000 ; where the truncated address is 0x00000
 ```
 
-This wrapping can be used to index to any point in memory
+Note: segment registers cannot be set directly i.e. using the `mov` instruction
+
+This wrapping can be used to index to any point in memory.
+
+The A20 line is the representation of the 21st bit (Bit 20) of a memory address. With the A20 line **disabled** the address will wrap around via being truncated. This is used and a clever way to access certain spots in memory but also restricts the physical memory to be only 1 MB. Therefore for modern operating system the A20 line should be **enable** to allow all of physical memory to be accessed (where the bit 20 is preserved) as we do not want to be restricted to only 1 MB of memory.
+
+To disable the line, 
+
+```nasm
+mov ax, 0x2400
+int 0x15
+```

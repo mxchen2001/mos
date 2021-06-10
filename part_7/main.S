@@ -31,14 +31,16 @@ main:
     int 0x13
     pop ax
 
-    mov si, INIT_MSG
-    call printf
+    ; mov si, INIT_MSG
+    ; call printf
 
     mov dx, [0x7c00 + 510]
     call printh
+
+    call testA20
         
-    mov si, STR
-    call printf
+    ; mov si, STR
+    ; call printf
 
     mov al, 0x01      ; read a single sector
     mov cl, 0x02      ; starting sector, read next sector. Boot sector is 0x01
@@ -48,16 +50,17 @@ main:
 
     jmp $     ; infinite will loop
 
+    %include "./testA20.S"
     %include "./printf.S"
     %include "./printh.S"
     %include "./read_disk.S"
 
     STR:
-        db "Mike OS is currently in 16-bit Real Mode.", 0x0a, 0x0d, "Sorry currently does nothing", 0x0a, 0x0d, 0
+        ; db "Mike OS is currently in 16-bit Real Mode.", 0x0a, 0x0d, "Sorry currently does nothing", 0x0a, 0x0d, 0
         ; db "Hello World", 0 ; a null terminated string
 
     INIT_MSG:
-        db "main has been sucessfully initialized", 0x0a, 0x0d, 0
+        ; db "main has been sucessfully initialized", 0x0a, 0x0d, 0
 
     
 

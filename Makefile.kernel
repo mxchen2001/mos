@@ -7,7 +7,7 @@ main.bin: *.S
 # 	cp main.bin iso/boot/main.bin && \
 # 	grub-mkrescue /usr/lib/grub/i386-pc -o main.iso iso
 
-qemu-bin:
+qemu:
 	qemu-system-x86_64 main.bin
 
 # qemu-iso:

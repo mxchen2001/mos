@@ -36,6 +36,8 @@ main:
 
     mov dx, [0x7c00 + 510]
     call printh
+
+    call testA20
         
     mov si, STR
     call printf
@@ -48,6 +50,7 @@ main:
 
     jmp $     ; infinite will loop
 
+    %include "./testA20.S"
     %include "./printf.S"
     %include "./printh.S"
     %include "./read_disk.S"

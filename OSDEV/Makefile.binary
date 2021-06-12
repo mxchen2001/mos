@@ -1,22 +1,19 @@
 # -*- makefile -*-
 
-# all src files excluding bootloader.S
-x86_64_asm_src := $(shell find src/*.S ! -name bootloader.S)
-x86_64_asm_bin := $(patsubst src/%.S, build/%.bin, $(x86_64_asm_src))
-
-build: bootloader.bin $(x86_64_asm_bin)
-	mkdir -p kernel && \
-	cat build/$< $(x86_64_asm_bin) > kernel/kernel.bin
+build: kernel/kernel.bin
     
 # run if source file changed
-$(x86_64_asm_bin): build/%.bin : src/%.S
+build/extendedProgram.bin: src/extendedProgram.S src/lib/*.S
 	mkdir -p build && \
-	nasm -fbin $(patsubst build/%.bin, src/%.S, $@) -o $@
+	nasm -fbin $< -o $@
 
-bootloader.bin: src/bootloader.S
+build/bootloader.bin: src/bootloader.S src/lib/*.S
 	mkdir -p build && \
-	nasm -fbin $< -o build/$@
+	nasm -fbin $< -o $@
 
+kernel/kernel.bin: build/bootloader.bin build/extendedProgram.bin
+	mkdir -p kernel && \
+	cat $^ > $@
 
 qemu:
 	qemu-system-x86_64 kernel/kernel.bin

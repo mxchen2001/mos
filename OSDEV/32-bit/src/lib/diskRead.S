@@ -1,5 +1,3 @@
-; Some compile time variable i.e. #defines
-
 SECTOR_SIZE equ 512
 BOOT_SECTOR equ 0x7c00
 
@@ -13,9 +11,6 @@ PROGRAM_SPACE equ (SECTOR_SIZE + BOOT_SECTOR)
 ;         al - sector count  
 ;         dl - drive number  
 ;         cl - drive number  
-;         
-; Note  the example has predefine values for each parameter
-
 
 readDisk:
     mov bx, PROGRAM_SPACE               ; buffer address pointer
@@ -41,5 +36,5 @@ readDisk:
 DISK_ERR_MSG:
     db "Disk Read Failed", 0x0a, 0x0d, 0
 
-BOOT_DISK_NO:                           ; the disk number of the boot drive is saved here
+BOOT_DISK_NO:
     db 0

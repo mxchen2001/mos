@@ -1,22 +1,25 @@
 # -*- makefile -*-
 
-build: kernel/kernel.bin
+build: build/kernel.bin
+
+run: qemu
     
 # run if source file changed
-build/extendedProgram.bin: src/extendedProgram.S src/lib/*.S
+build/bin/extendedProgram.bin: src/extendedProgram.S src/lib/*.S
 	mkdir -p build && \
+	mkdir -p build/bin && \
 	nasm -fbin $< -o $@
 
-build/bootloader.bin: src/bootloader.S src/lib/*.S
+build/bin/bootloader.bin: src/bootloader.S src/lib/*.S
 	mkdir -p build && \
+	mkdir -p build/bin && \
 	nasm -fbin $< -o $@
 
-kernel/kernel.bin: build/bootloader.bin build/extendedProgram.bin
-	mkdir -p kernel && \
+build/kernel.bin: build/bin/bootloader.bin build/bin/extendedProgram.bin
 	cat $^ > $@
 
 qemu:
-	qemu-system-x86_64 kernel/kernel.bin
+	qemu-system-x86_64 build/kernel.bin
 
 clean:
-	rm  */*.bin
+	rm  -rf build

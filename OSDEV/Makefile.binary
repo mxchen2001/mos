@@ -5,7 +5,7 @@ build: build/kernel.bin
 run: qemu
     
 # run if source file changed
-build/bin/extendedProgram.bin: src/extendedProgram.S src/lib/*.S
+build/bin/main.bin: src/main.S src/lib/*.S
 	mkdir -p build && \
 	mkdir -p build/bin && \
 	nasm -fbin $< -o $@
@@ -15,7 +15,7 @@ build/bin/bootloader.bin: src/bootloader.S src/lib/*.S
 	mkdir -p build/bin && \
 	nasm -fbin $< -o $@
 
-build/kernel.bin: build/bin/bootloader.bin build/bin/extendedProgram.bin
+build/kernel.bin: build/bin/bootloader.bin build/bin/main.bin
 	cat $^ > $@
 
 qemu:

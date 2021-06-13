@@ -1,6 +1,6 @@
 [org 0x7e00]
 
-extendedProgram:                                ; print a message to indicate if mapped to memory
+main:                                ; print a message to indicate if mapped to memory
     mov bx, READ_DISK_MSG
     call printString
 

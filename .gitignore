@@ -1,5 +1,6 @@
 .DS_Store
 build/
-kernel/
 **/*.bin
+**/*.o
+**/*.flp
 docker_shortcuts

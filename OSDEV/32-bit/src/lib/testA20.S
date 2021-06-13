@@ -7,8 +7,9 @@
 ;
 ; Purpose: to print a null terminated string using bios calls
 ; 
-; Returns: 1 on disable
-;          0 on disabled
+; Returns: ax register
+;          1 on enable
+;          0 on disable
 testA20:
     pusha
 

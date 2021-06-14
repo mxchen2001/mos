@@ -11,8 +11,4 @@ uint16_t hi;
 static void init(void) {
     /* Already initialized? */
     static short inited;
-
-    if (!inited) {
-        inited = true;
-    }
 }

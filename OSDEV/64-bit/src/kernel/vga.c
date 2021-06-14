@@ -9,6 +9,5 @@
 uint16_t hi;
 
 static void init(void) {
-    /* Already initialized? */
-    static short inited;
+    return;
 }

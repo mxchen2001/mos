@@ -6,6 +6,6 @@
 #define COL_CNT 80
 #define ROW_CNT 25
 
-static void init(void) {
+static void init_vga(void) {
     return;
 }

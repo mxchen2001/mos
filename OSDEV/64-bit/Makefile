@@ -15,7 +15,7 @@ build/bin/x86_64/main.o: src/x86_64/main.S src/x86_64/lib/*.S
 
 build/bin/kernel/kernel.o: src/kernel/kernel.c
 	mkdir -p build/bin/kernel && \
-	x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c $< -o $@
+	x86_64-elf-gcc -c -I src/intf -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c $< -o $@
 
 build/bin/kernel.bin: build/bin/x86_64/main.o build/bin/kernel/kernel.o 
 	x86_64-elf-ld -n -o $@ -T link.ld $^
